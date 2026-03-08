@@ -1,8 +1,6 @@
-# API Shop
+# House API
 
-This is a simple API for [a house collection application](https://github.com/jamj2000/rn-shop).
-
-[House API](https://nxapi-shop.vercel.app)
+[House Collection API](https://dwes-t8-house-api.vercel.app/api)
 
 ## Models
 
