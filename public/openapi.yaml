@@ -11,11 +11,11 @@ info:
     - Login de usuarios
     - Verificar estado de autenticación
 
-    ## **Productos**
-    - Crear productos
-    - Consultar productos
-    - Actualizar productos
-    - Eliminar productos
+    ## **Casas**
+    - Crear casas
+    - Consultar casas
+    - Actualizar casas
+    - Eliminar casas
     
     ## **Imágenes**
     - Subir imágenes en cualquier formato (`image/*`)
@@ -24,9 +24,9 @@ info:
     - Eliminar imágenes subidas
 
     > **NOTA:**
-    > Las siguientes propiedades deben tener **valores únicos**: `title` y `slug` de un producto, así como el `email` de un usuario.
+    > Las siguientes propiedades deben tener **valores únicos**: `title` y `slug` de un casa, así como el `email` de un usuario.
     >
-    > - Si al introducir o modificar un producto obtienes un **código 409**, es porque ya existe un producto con el mismo `title` o `slug`.
+    > - Si al introducir o modificar un casa obtienes un **código 409**, es porque ya existe un casa con el mismo `title` o `slug`.
     > - Si al registrar un usuario obtienes un **código 409**, es porque ya existe un usuario con el mismo `email`.
 
     Para más información, visita [nuestro repositorio](https://github.com/jamj2000/nxapi-shop).
@@ -71,7 +71,7 @@ components:
           description: The password for this user
           nullable: false
 
-    Product:
+    House:
       type: object
       required:
         - id
@@ -79,54 +79,48 @@ components:
         - price
         - description
         - slug
-        - stock
-        - sizes
-        - gender
+        - rooms
+        - bathrooms
+        - squareMeters
+        - propertyType
         - tags
         - images
       properties:
         id:
           type: string
-          description: Product ID
+          description: House ID
           uniqueItems: true
           example: cd533345-f1f3-48c9-a62e-7dc2da50c8f8
         title:
           type: string
-          description: Product Title
+          description: House Title
           uniqueItems: true
-          example: T-Shirt Teslo
+          example: Cozy Family Home
         price:
           type: number
-          description: Product price
-          example: 0
+          description: House price
+          example: 350000
         description:
           type: string
-          description: Product description
+          description: House description
           default: null
-          example: Anim reprehenderit nulla in anim mollit minim irure commodo.
+          example: Beautiful suburban home with a large garden.
         slug:
           type: string
-          description: Product SLUG - for SEO
+          description: House SLUG - for SEO
           uniqueItems: true
-          example: t_shirt_teslo
-        stock:
+          example: cozy_family_home
+        rooms:
           type: number
-          description: Product stock
+          description: Number of rooms
           default: 0
-          example: 10
-        sizes:
-          type: array
-          description: Product sizes
-          items:
-            type: string
-          example:
-            - M
-            - XL
-            - XXL
-        gender:
+          example: 4
+        bathrooms:
+          type: number
+        squareMeters:
+          type: number
+        propertyType:
           type: string
-          description: Product gender
-          example: women
         tags:
           type: array
           items:
@@ -136,22 +130,23 @@ components:
           items:
             type: string
 
-    ProductCreate:
+    HouseCreate:
       type: object
       required:
         - title
         - price
         - description
         - slug
-        - stock
-        - sizes
-        - gender
+        - rooms
+        - bathrooms
+        - squareMeters
+        - propertyType
         - tags
         - images
       properties:
         title:
           type: string
-          description: Product title (unique)
+          description: House title (unique)
           nullable: false
           minLength: 1
         price:
@@ -160,16 +155,16 @@ components:
           type: string
         slug:
           type: string
-          description: Product slug (unique)
+          description: House slug (unique)
           nullable: false
           minLength: 1
-        stock:
+        rooms:
           type: number
-        sizes:
-          type: array
-          items:
-            type: string
-        gender:
+        bathrooms:
+          type: number
+        squareMeters:
+          type: number
+        propertyType:
           type: string
         tags:
           type: array
@@ -180,12 +175,12 @@ components:
           items:
             type: string
 
-    ProductUpdate:
+    HouseUpdate:
       type: object
       properties:
         title:
           type: string
-          description: Product title (unique)
+          description: House title (unique)
           nullable: false
           minLength: 1
         price:
@@ -194,16 +189,16 @@ components:
           type: string
         slug:
           type: string
-          description: Product slug (unique)
+          description: House slug (unique)
           nullable: false
           minLength: 1
-        stock:
+        rooms:
           type: number
-        sizes:
-          type: array
-          items:
-            type: string
-        gender:
+        bathrooms:
+          type: number
+        squareMeters:
+          type: number
+        propertyType:
           type: string
         tags:
           type: array
@@ -319,11 +314,11 @@ paths:
         "404":
           description: User not found
 
-  /api/products:
+  /api/houses:
     post:
-      summary: Create new product
+      summary: Create new house
       tags:
-        - Products
+        - Houses
       security:
         - bearerAuth: []
       requestBody:
@@ -331,25 +326,25 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ProductCreate"
+              $ref: "#/components/schemas/HouseCreate"
       responses:
         "201":
-          description: Product was created
+          description: House was created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Product"
+                $ref: "#/components/schemas/House"
         "400":
           description: Missing data
         "401":
           description: Unauthorized. Token expired or invalid.
         "409":
-          description: Product title or slug already exists
+          description: House title or slug already exists
 
     get:
-      summary: List products
+      summary: List houses
       tags:
-        - Products
+        - Houses
       parameters:
         - name: limit
           in: query
@@ -367,15 +362,15 @@ paths:
             default: 0
       responses:
         "200":
-          description: Product list
+          description: House list
         "500":
           description: Internal server error
 
-  /api/products/all/{term}:
+  /api/houses/all/{term}:
     get:
-      summary: Search products
+      summary: Search houses
       tags:
-        - Products
+        - Houses
       parameters:
         - name: term
           in: path
@@ -388,11 +383,11 @@ paths:
         "500":
           description: Internal server error
 
-  /api/products/{idOrSlug}:
+  /api/houses/{idOrSlug}:
     get:
-      summary: Find product by ID or slug
+      summary: Find house by ID or slug
       tags:
-        - Products
+        - Houses
       parameters:
         - name: idOrSlug
           in: path
@@ -401,19 +396,19 @@ paths:
             type: string
       responses:
         "200":
-          description: Product found
+          description: House found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Product"
+                $ref: "#/components/schemas/House"
         "500":
           description: Internal server error
 
-  /api/products/{id}:
+  /api/houses/{id}:
     patch:
-      summary: Update product
+      summary: Update house
       tags:
-        - Products
+        - Houses
       security:
         - bearerAuth: []
       parameters:
@@ -427,22 +422,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ProductUpdate"
+              $ref: "#/components/schemas/HouseUpdate"
       responses:
         "200":
-          description: Product updated successfully
+          description: House updated successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Product"
+                $ref: "#/components/schemas/House"
         "401":
           description: Unauthorized. Token expired or invalid.
         "409":
-          description: Product title or slug already exists
+          description: House title or slug already exists
     delete:
-      summary: Delete product
+      summary: Delete house
       tags:
-        - Products
+        - Houses
       security:
         - bearerAuth: []
       parameters:
@@ -453,19 +448,19 @@ paths:
             type: string
       responses:
         "200":
-          description: Product deleted successfully
+          description: House deleted successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Product"
+                $ref: "#/components/schemas/House"
         "401":
           description: Unauthorized. Token expired or invalid.
         "500":
           description: Internal server error
 
-  /api/files/product:
+  /api/files/house:
     post:
-      summary: Upload product image
+      summary: Upload house image
       tags:
         - Files - Get and Upload
       security:
@@ -478,15 +473,6 @@ paths:
               type: string
               format: binary
               description: "Archivo de imagen (PNG, JPEG, GIF, WebP, etc.)"
-        # content:
-        #   multipart/form-data:
-        #     schema:
-        #       type: object
-        #       properties:
-        #         file:
-        #           type: string
-        #           format: binary
-        #           description: Image file (any image/*)
       responses:
         "201":
           description: Uploaded
@@ -516,9 +502,9 @@ paths:
         "500":
           description: Internal server error  
 
-  /api/files/product/{imageName}:
+  /api/files/house/{imageName}:
     get:
-      summary: Get product image
+      summary: Get house image
       tags:
         - Files - Get and Upload
       parameters:
@@ -530,14 +516,10 @@ paths:
       responses:
         "200":
           description: OK
-          # content:
-          #   application/json:
-          #     schema:
-          #       $ref: "#/components/schemas/ImageInfo"
         "404":
           description: Image not found
     put:
-      summary: Change product image
+      summary: Change house image
       tags:
         - Files - Get and Upload
       security:
@@ -568,7 +550,7 @@ paths:
         "500":
           description: Internal server error              
     delete:
-      summary: Delete product image
+      summary: Delete house image
       tags:
         - Files - Get and Upload
       security:
@@ -585,4 +567,4 @@ paths:
         "401":
           description: Unauthorized. Token expired or invalid.
         "500":
-          description: Internal server error             
+          description: Internal server error

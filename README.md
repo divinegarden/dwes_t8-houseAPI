@@ -7,16 +7,16 @@ This is a simple API for [a shop application](https://github.com/jamj2000/rn-sho
 ## Models
 
 - User
-- Product
-- ProductImage
+- House
+- HouseImage
 
 ![ER Diagram](ER-diagram.png)
 
 ## Data
 
 - users.json
-- products.json
-- product_images.json
+- houses.json
+- house_images.json
 
 
 ## Endpoints
@@ -27,22 +27,22 @@ This is a simple API for [a shop application](https://github.com/jamj2000/rn-sho
 - `POST /api/auth/login`
 - `GET  /api/auth/check-status`
 
-### Products
+### Houses
 
-- `POST   /api/products`
-- `GET    /api/products`
-- `GET    /api/products/all/:term`
-- `GET    /api/products/:idOrSlug`
-- `PATCH  /api/products/:id`
-- `DELETE /api/products/:id`
+- `POST   /api/houses`
+- `GET    /api/houses`
+- `GET    /api/houses/all/:term`
+- `GET    /api/houses/:idOrSlug`
+- `PATCH  /api/houses/:id`
+- `DELETE /api/houses/:id`
 
 ### Files
 
-- `POST   /api/files/product`
-- `GET    /api/files/product`
-- `GET    /api/files/product/:imageName`
-- `PUT    /api/files/product/:imageName`
-- `DELETE /api/files/product/:imageName`
+- `POST   /api/files/house`
+- `GET    /api/files/house`
+- `GET    /api/files/house/:imageName`
+- `PUT    /api/files/house/:imageName`
+- `DELETE /api/files/house/:imageName`
 
 ## Tech Stack
 
@@ -55,13 +55,13 @@ This is a simple API for [a shop application](https://github.com/jamj2000/rn-sho
 1. Clone the repository
 
 ```bash
-git clone https://github.com/jamj2000/nxapi-shop.git
+git clone https://github.com/divinegarden/dwes_t8-houseAPI
 ```
 
 2. Install dependencies
 
 ```bash
-cd  nxapi-shop 
+cd  dwes_t8-houseAPI 
 npm install
 ```
 

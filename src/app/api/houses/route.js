@@ -15,9 +15,10 @@ export async function GET(request) {
         price: true,
         description: true,
         slug: true,
-        stock: true,
-        sizes: true,
-        gender: true,
+        rooms: true,
+        bathrooms: true,
+        squareMeters: true,
+        propertyType: true,
         tags: true,
         images: { select: { url: true } },
         user: {
@@ -32,15 +33,15 @@ export async function GET(request) {
     };
 
     try {
-        const products = await prisma.product.findMany({ select, take: limit, skip: offset });
+        const houses = await prisma.house.findMany({ select, take: limit, skip: offset });
 
-        const formattedProducts = products.map(product => ({
-            ...product,
-            images: product.images.map(image => image.url),
+        const formattedHouses = houses.map(house => ({
+            ...house,
+            images: house.images.map(image => image.url),
         }));
 
         return NextResponse.json(
-            formattedProducts,
+            formattedHouses,
             { status: 200 }
         );
     } catch (error) {
@@ -80,24 +81,25 @@ export async function POST(request) {
     }
 
     try {
-        const { title, price, description, slug, stock, sizes, gender, tags, images } = await request.json();
+        const { title, price, description, slug, rooms, bathrooms, squareMeters, propertyType, tags, images } = await request.json();
 
-        if (!title || price === undefined || !slug || stock === undefined || !sizes || !gender || !tags || !images) {
+        if (!title || price === undefined || !slug || rooms === undefined || bathrooms === undefined || squareMeters === undefined || !propertyType || !tags || !images) {
             return NextResponse.json(
                 { error: "Missing data" },
                 { status: 400 }
             )
         }
 
-        const product = await prisma.product.create({
+        const house = await prisma.house.create({
             data: {
                 title,
                 price,
                 description,
                 slug,
-                stock,
-                sizes,
-                gender,
+                rooms,
+                bathrooms,
+                squareMeters,
+                propertyType,
                 tags,
                 images: {
                     create: images.map(image => ({ url: image }))
@@ -110,13 +112,13 @@ export async function POST(request) {
             }
         });
         return NextResponse.json(
-            product,
+            house,
             { status: 201 }
         );
     } catch (error) {
         console.log(error);
         return NextResponse.json(
-            { error: "Product title or slug already exists" },
+            { error: "House title or slug already exists" },
             { status: 409 }
         )
     }

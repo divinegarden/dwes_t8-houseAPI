@@ -15,36 +15,37 @@ model User {
   isActive Boolean  @default(true)
   roles    String[] @default(["user"])
 
-  products Product[]
+  houses House[]
 
   @@map("users")
 }
 
-model Product {
-  id          String   @id @default(uuid())
-  title       String   @unique
-  price       Float    @default(0)
-  description String?
-  slug        String   @unique
-  stock       Int      @default(0)
-  sizes       String[]
-  gender      String
-  tags        String[] @default([])
+model House {
+  id           String   @id @default(uuid())
+  title        String   @unique
+  price        Float    @default(0)
+  description  String?
+  slug         String   @unique
+  rooms        Int      @default(0)
+  bathrooms    Int      @default(0)
+  squareMeters Float    @default(0)
+  propertyType String
+  tags         String[] @default([])
 
   userId String?
   user   User?   @relation(fields: [userId], references: [id])
 
-  images ProductImage[]
+  images HouseImage[]
 
-  @@map("products")
+  @@map("houses")
 }
 
-model ProductImage {
+model HouseImage {
   id  Int    @id @default(autoincrement())
   url String @unique
 
-  productId String?
-  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  houseId String?
+  house   House? @relation(fields: [houseId], references: [id], onDelete: Cascade)
 
-  @@map("product_images")
+  @@map("house_images")
 }

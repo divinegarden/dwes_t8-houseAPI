@@ -1,4 +1,4 @@
-import { users, products, productImages } from './data.mjs';
+import { users, houses, houseImages } from './data.mjs';
 
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 const resetDatabase = async () => {
     console.log("Reiniciando base de datos (TRUNCATE)...");
     // PostgreSQL
-    await prisma.$executeRaw`TRUNCATE TABLE "users", "products", "product_images" RESTART IDENTITY CASCADE;`;
+    await prisma.$executeRaw`TRUNCATE TABLE "users", "houses", "house_images" RESTART IDENTITY CASCADE;`;
 }
 
 
@@ -21,15 +21,15 @@ async function main() {
         skipDuplicates: true,
     });
 
-    console.log("Añadiendo productos...")
-    await prisma.product.createMany({
-        data: products,
+    console.log("Añadiendo casas...")
+    await prisma.house.createMany({
+        data: houses,
         skipDuplicates: true,
     });
 
     console.log("Añadiendo imágenes...")
-    await prisma.productImage.createMany({
-        data: productImages,
+    await prisma.houseImage.createMany({
+        data: houseImages,
         skipDuplicates: true,
     });
 

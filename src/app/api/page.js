@@ -8,7 +8,7 @@ import "swagger-ui-dist/swagger-ui.css";
 export default function page() {
     return (
         <div>
-            <div className="p-20 grid place-content-center bg-blue-700 text-white text-4xl">
+            <div className="p-20 grid place-content-center bg-pink-200 text-white text-4xl">
                 API Doc
             </div>
             <SwaggerDocs />

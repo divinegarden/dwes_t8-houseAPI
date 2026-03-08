@@ -5,7 +5,7 @@ import prisma from "@/lib/prisma";
 
 
 
-const FOLDER = 'shop';
+const FOLDER = 'houses';
 
 
 

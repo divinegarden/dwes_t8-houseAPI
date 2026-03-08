@@ -4,7 +4,7 @@ import path from "node:path";
 import jwt from "jsonwebtoken";
 import prisma from "@/lib/prisma";
 
-const FOLDER = 'shop';
+const FOLDER = 'houses';
 
 
 export async function GET(request, { params }) {

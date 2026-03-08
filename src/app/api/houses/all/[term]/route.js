@@ -9,7 +9,7 @@ export async function GET(request, { params }) {
 
 
     try {
-        const products = await prisma.product.findMany({
+        const houses = await prisma.house.findMany({
             where: {
                 OR: [
                     {
@@ -29,7 +29,7 @@ export async function GET(request, { params }) {
         });
 
         return NextResponse.json(
-            products,
+            houses,
             { status: 200 }
         );
     } catch (error) {

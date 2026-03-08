@@ -9,7 +9,7 @@ export async function GET(request, { params }) {
 
 
     try {
-        const product = await prisma.product.findFirst({
+        const house = await prisma.house.findFirst({
             where: { OR: [{ id: idOrSlug }, { slug: idOrSlug }] },
             select: {
                 id: true,
@@ -17,9 +17,10 @@ export async function GET(request, { params }) {
                 price: true,
                 description: true,
                 slug: true,
-                stock: true,
-                sizes: true,
-                gender: true,
+                rooms: true,
+                bathrooms: true,
+                squareMeters: true,
+                propertyType: true,
                 tags: true,
                 images: { select: { url: true } },
                 user: {
@@ -34,19 +35,19 @@ export async function GET(request, { params }) {
             },
         });
 
-        if (!product) {
+        if (!house) {
             return NextResponse.json(
-                { message: "Product not found" },
+                { message: "House not found" },
                 { status: 404 }
             );
         }
 
-        const formattedProduct = {
-            ...product,
-            images: product.images.map((image) => image.url),
+        const formattedHouse = {
+            ...house,
+            images: house.images.map((image) => image.url),
         };
         return NextResponse.json(
-            formattedProduct,
+            formattedHouse,
             { status: 200 }
         );
     } catch (error) {
@@ -87,40 +88,38 @@ export async function PATCH(request, { params }) {
     }
 
     try {
-        const product = await prisma.product.findUnique({
+        const house = await prisma.house.findUnique({
             where: { id },
             include: { images: true }
         });
 
-        if (!product) {
+        if (!house) {
             return NextResponse.json(
-                { message: "Product not found" },
+                { message: "House not found" },
                 { status: 404 }
             );
         }
 
         const body = await request.json();
-        const { title, price, description, slug, stock, sizes, gender, tags, images = [] } = body;
+        const { title, price, description, slug, rooms, bathrooms, squareMeters, propertyType, tags, images = [] } = body;
 
-        const updatedProduct = await prisma.product.update({
+        const updatedHouse = await prisma.house.update({
             where: { id },
             data: {
                 title,
                 price,
                 description,
                 slug,
-                stock,
-                sizes,
-                gender,
+                rooms,
+                bathrooms,
+                squareMeters,
+                propertyType,
                 tags,
                 images: {
                     connectOrCreate: images.map(url => ({
                         where: { url },
                         create: { url }
                     })),
-                    // set: images.map(url => ({
-                    //     url
-                    // }))
                 },
                 userId: idUser,
             },
@@ -131,7 +130,7 @@ export async function PATCH(request, { params }) {
         });
 
         return NextResponse.json(
-            updatedProduct,
+            updatedHouse,
             { status: 200 }
         );
 
@@ -174,16 +173,16 @@ export async function DELETE(request, { params }) {
 
 
     try {
-        const product = await prisma.product.findUnique({ where: { id } });
+        const house = await prisma.house.findUnique({ where: { id } });
 
-        if (!product) {
+        if (!house) {
             return NextResponse.json(
-                { message: "Product not found" },
+                { message: "House not found" },
                 { status: 404 }
             );
         }
 
-        const deletedProduct = await prisma.product.delete({
+        const deletedHouse = await prisma.house.delete({
             where: { id },
             // incluimos las imágenes en la respuesta
             include: {
@@ -192,13 +191,13 @@ export async function DELETE(request, { params }) {
         });
 
         return NextResponse.json(
-            deletedProduct,
+            deletedHouse,
             { status: 200 }
         );
     } catch (error) {
         console.log(error);
         return NextResponse.json(
-            { error: "Product title or slug already exists" },
+            { error: "House title or slug already exists" },
             { status: 409 }
         )
     }
