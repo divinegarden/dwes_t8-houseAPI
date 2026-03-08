@@ -1,16 +1,14 @@
 # API Shop
 
-This is a simple API for [a shop application](https://github.com/jamj2000/rn-shop).
+This is a simple API for [a house collection application](https://github.com/jamj2000/rn-shop).
 
-[API Shop](https://nxapi-shop.vercel.app)
+[House API](https://nxapi-shop.vercel.app)
 
 ## Models
 
 - User
 - House
 - HouseImage
-
-![ER Diagram](ER-diagram.png)
 
 ## Data
 

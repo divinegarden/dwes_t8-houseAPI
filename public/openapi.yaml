@@ -1,6 +1,6 @@
 openapi: 3.1.1
 info:
-  title: "Shop API Documentation"
+  title: "House API Documentation"
   description: |
     # A modern REST API built with Next.js
 
@@ -29,7 +29,7 @@ info:
     > - Si al introducir o modificar un casa obtienes un **código 409**, es porque ya existe un casa con el mismo `title` o `slug`.
     > - Si al registrar un usuario obtienes un **código 409**, es porque ya existe un usuario con el mismo `email`.
 
-    Para más información, visita [nuestro repositorio](https://github.com/jamj2000/nxapi-shop).
+    Para más información, visita [nuestro repositorio](https://github.com/divinegarden/dwes_t8-houseAPI).
   version: "1.0.0"
 
 components:
